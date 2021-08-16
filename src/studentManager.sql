@@ -86,3 +86,15 @@ FROM Student S join Mark M on S.StudentId = M.StudentId
 SELECT S.StudentId, S.StudentName, Sub.SubName, M.Mark
 FROM Student S join Mark M on S.StudentId = M.StudentId join Subject Sub on M.SubId = Sub.SubId
 WHERE Sub.SubName = 'CF';
+
+# Hiển thị tất cả các sinh viên có tên bắt đầu bảng ký tự ‘h’
+select * from Student where StudentName like 'H%';
+# Hiển thị các thông tin lớp học có thời gian bắt đầu vào tháng 12.
+select * from class where Class.StartDate;
+# Hiển thị tất cả các thông tin môn học có credit trong khoảng từ 3-5.
+select * from Subject where Credit between 3 and 5;
+# Thay đổi mã lớp(ClassID) của sinh viên có tên ‘Hung’ là 2.
+update Student set ClassID = 2 where StudentName = 'Hung';
+# Hiển thị các thông tin: StudentName, SubName, Mark. Dữ liệu sắp xếp theo điểm thi (mark) giảm dần. nếu trùng sắp theo tên tăng dần.
+select s.StudentName , s2.SubName, Mark from mark join student s on s.StudentId = mark.StudentId
+                                                 join subject s2 on s2.SubId = mark.SubId order by SubName asc, Mark desc;
