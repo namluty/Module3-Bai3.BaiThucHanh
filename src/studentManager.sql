@@ -87,7 +87,7 @@ SELECT S.StudentId, S.StudentName, Sub.SubName, M.Mark
 FROM Student S join Mark M on S.StudentId = M.StudentId join Subject Sub on M.SubId = Sub.SubId
 WHERE Sub.SubName = 'CF';
 
-# Hiển thị tất cả các sinh viên có tên bắt đầu bảng ký tự ‘h’
+# Hiển thị tất cả các sinh viên có tên bắt đầu bảng ký tự ‘H’
 select * from Student where StudentName like 'H%';
 # Hiển thị các thông tin lớp học có thời gian bắt đầu vào tháng 12.
 select * from class where Class.StartDate;
@@ -98,3 +98,24 @@ update Student set ClassID = 2 where StudentName = 'Hung';
 # Hiển thị các thông tin: StudentName, SubName, Mark. Dữ liệu sắp xếp theo điểm thi (mark) giảm dần. nếu trùng sắp theo tên tăng dần.
 select s.StudentName , s2.SubName, Mark from mark join student s on s.StudentId = mark.StudentId
                                                  join subject s2 on s2.SubId = mark.SubId order by SubName asc, Mark desc;
+
+use QuanLySinhVien;
+
+#Sử dụng hàm count để hiển thị số lượng sinh viên ở từng nơi
+SELECT Address, COUNT(StudentId) AS 'Số lượng học viên'
+FROM Student
+GROUP BY Address;
+
+#Tính điểm trung bình các môn học của mỗi học viên bằng cách sử dụng hàm AVG
+select s.StudentId, StudentName, avg(Mark) from Student s
+    join Mark M on s.StudentId = M.StudentId group by s.StudentId, s.StudentName;
+
+#Hiển thị những bạn học viên co điểm trung bình các môn học lớn hơn 15
+select s.StudentId, StudentName, avg(Mark) from Student s
+    join Mark M on s.StudentId = M.StudentId group by s.StudentId, s.StudentName having avg(Mark) > 15;
+
+#Hiển thị thông tin các học viên có điểm trung bình lớn nhất.
+SELECT S.StudentId, S.StudentName, AVG(Mark)
+FROM Student S join Mark M on S.StudentId = M.StudentId
+GROUP BY S.StudentId, S.StudentName
+HAVING AVG(Mark) >= ALL (SELECT AVG(Mark) FROM Mark GROUP BY Mark.StudentId);
