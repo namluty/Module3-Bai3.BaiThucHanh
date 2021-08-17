@@ -119,3 +119,15 @@ SELECT S.StudentId, S.StudentName, AVG(Mark)
 FROM Student S join Mark M on S.StudentId = M.StudentId
 GROUP BY S.StudentId, S.StudentName
 HAVING AVG(Mark) >= ALL (SELECT AVG(Mark) FROM Mark GROUP BY Mark.StudentId);
+
+#Hiển thị tất cả các thông tin môn học (bảng subject) có credit lớn nhất.
+select * from subject where Credit >= all(select Credit from subject);
+
+
+#Hiển thị các thông tin môn học có điểm thi lớn nhất.
+select subject.SubId, SubName, Credit, Status, Mark.Mark from subject join mark on subject.SubId = mark.SubId
+where Mark >= all(select Mark from mark);
+
+#Hiển thị các thông tin sinh viên và điểm trung bình của mỗi sinh viên, xếp hạng theo thứ tự điểm giảm dần
+select StudentName,Address,Phone,Status, avg(Mark) as avgmark from mark
+    join student on mark.StudentId = student.StudentId group by mark.StudentId order by avgmark desc;
